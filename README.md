@@ -10,6 +10,6 @@ Mariam Behairy (Contact: http://www.linkedin.com/in/mariam-behairy-a26277259 )
 
 Yassin Ehab (Contact: https://www.linkedin.com/in/yassin-ehab-66310b267 )
 
-Ahmad Wael Abdelaziz (Contact: LinkedIn: https://www.linkedin.com/in/ahmad-gadalla-717a55242/)
+Ahmad Wael Abdelaziz (Contact: https://www.linkedin.com/in/ahmad-gadalla-717a55242/)
 
 
