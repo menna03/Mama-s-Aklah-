@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {# Added viewport for responsiveness #}
+    <title>Sign Up - Mama's Aklah</title>
+    <link rel="stylesheet" href="{% static 'recipes_app/css/Css_Styling.css' %}">
+    <style>
+        /* Basic styles for the message div, can be moved to Css_Styling.css */
+        #signup-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #signup-message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        #signup-message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .error-list {
+            list-style-type: none;
+            padding: 0;
+            color: #721c24;
+        }
+        .error-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Welcome to Mama's Aklah</h2>
+            <p>Create an account to save and share your favorite recipes.</p>
+
+            <form id="signup-form" method="POST" data-signup-url="{% url 'ajax_signup_view_name' %}">
+                {% csrf_token %} {# CRITICAL for Django POST forms / AJAX POST #}
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required autocomplete="new-password">
+
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm_password" required autocomplete="new-password">
+                {# Name changed to confirm_password to avoid conflict if "password" is used for validation keys #}
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="is_staff" name="is_staff"> Sign up as a Chef/Admin
+                    {# Name changed to is_staff to align with Django's User model field #}
+                </label>
+
+                <button type="submit" id="signup-submit-button">Sign Up</button>
+            </form>
+            <br>
+            <div id="signup-message" role="alert">
+                </div>
+            <div class="toggle-buttons">
+                <a href="{% url 'login_page_view_name' %}">Already have an account? Login</a>
+            </div>
+             <div class="toggle-buttons" style="margin-top: 10px;">
+                <a href="{% url 'home_view_name' %}">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+<script src="{% static 'recipes_app/js/csrf_cookie.js' %}"></script>
+<script src="{% static 'recipes_app/js/signup.js' %}"></script>
+</body>
+</html>

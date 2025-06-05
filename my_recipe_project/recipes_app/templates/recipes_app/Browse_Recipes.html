@@ -1,0 +1,26 @@
+{% extends 'recipes_app/base.html' %}
+{% load static %}
+
+{% block title %}Browse Recipes - Mama's Aklah{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'recipes_app/css/browse_recipes.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="browse-container">
+    <div class="search-bar-container">
+        <input type="text" id="searchInput" placeholder="Search recipes by name..." aria-label="Search recipes">
+    </div>
+
+    <div class="recipe-grid" id="recipeGrid"
+         data-recipes-url="{% url 'get_recipes_ajax_name' %}"
+         data-recipe-detail-url-base="{% url 'recipe_detail_view_name' recipe_id=0 %}"> <p>Loading recipes...</p>
+    </div>
+    <div id="loading-error-message" style="color: red; text-align: center; margin-top: 20px;"></div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'recipes_app/js/browse_recipes.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,321 @@
+/* Web _Technology_Project_Phase_2/home.css */
+
+/* === Core Styles (body, etc.) === */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* text-align: center; Removed default center alignment */
+    background-color: #fff;
+}
+
+/* === Header Styles === */
+header {
+    padding: 15px 30px; /* Increased padding */
+    display: flex;
+    justify-content: space-between; /* Pushes title left, div right */
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    background-color: #fff; /* Ensure header background */
+}
+
+header h1 {
+    font-size: 32px; /* Larger title */
+    margin: 0;
+    color: #333;
+    /* To truly center, we might need more complex flexbox or grid,
+       but space-between often works well visually */
+    /* If exact centering is needed and flex allows: */
+    text-align: center; /* Center text within its container */
+    flex-grow: 1; /* Allow title to take available space */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between welcome message and logout */
+    min-width: 150px; /* Ensure it takes some space for balance */
+    justify-content: flex-end; /* Align its items to the right */
+}
+
+.welcome-msg {
+    font-size: 1em;
+    color: #555;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.logout-button {
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    padding: 8px 15px; /* Slightly adjusted padding */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    /* margin-left: auto; No longer needed with header-right wrapper */
+    white-space: nowrap;
+}
+
+.logout-button:hover {
+    background-color: #e14e4e;
+}
+
+
+/* === NEW Navigation Bar Styles === */
+nav {
+    /* Removed background, shadow, and bottom border from nav itself */
+    padding: 15px 0; /* Padding top/bottom */
+    text-align: center;
+    background-color: #f8f8f8; /* Very light grey background for the bar area */
+    border-bottom: 1px solid #eee;
+}
+
+nav a {
+    display: inline-block; /* Treat as block for padding */
+    margin: 0 10px; /* Spacing between buttons */
+    text-decoration: none;
+    color: white; /* Text color */
+    background-color: #333; /* Dark background for button look */
+    font-weight: 500;
+    padding: 10px 22px; /* Generous padding for button feel */
+    border-radius: 25px; /* Pill shape buttons */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+    font-size: 15px; /* Slightly smaller font */
+    border: none; /* Ensure no border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+nav a:hover {
+    background-color: #ff9800; /* Theme orange background on hover */
+    color: white; /* Keep text white */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Increase shadow */
+}
+
+nav a.active { /* Style for the current page link */
+    background-color: #ff9800; /* Theme orange background */
+    color: white; /* White text */
+    font-weight: 600;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Inset shadow for active state */
+}
+
+/* === Hero Section === */
+.hero {
+    position: relative;
+    text-align: center;
+}
+.hero img {
+    width: 100%;
+    max-height: 350px; /* Slightly taller */
+    object-fit: cover;
+    display: block;
+}
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 30px 40px; /* Increased padding */
+    border-radius: 10px;
+}
+.overlay h2 {
+    margin-bottom: 15px; /* Space below heading */
+}
+.start-button { /* Copied from original home.css */
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #000000;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+.start-button:hover {
+    background-color: hsl(236, 100%, 64%);
+    transform: scale(1.05);
+}
+
+
+/* === Recipes Section === */
+.recipes {
+    padding: 20px 0; /* Padding top/bottom */
+}
+.recipes h2 {
+    text-align: center; /* Ensure heading is centered */
+    margin-top: 30px;
+    margin-bottom: 25px; /* Increased spacing */
+    font-size: 26px; /* Slightly larger */
+    color: #333;
+}
+
+.recipe-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px; /* Increased gap */
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.recipe {
+    text-align: center;
+    background-color: #fff; /* White background for cards */
+    border-radius: 10px;
+    /* padding: 10px; */ /* Padding added by link */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08); /* Slightly softer shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden; /* Ensure image corners are clipped */
+}
+.recipe:hover {
+    transform: translateY(-4px); /* Increase lift */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12); /* Increase shadow */
+}
+
+.recipe a { /* Link takes up the card */
+    text-decoration: none;
+    color: #333; /* Default text color */
+    display: block;
+}
+
+.recipe img {
+    width: 100%;
+    height: 160px; /* Adjusted height */
+    object-fit: cover;
+    border-radius: 0; /* Remove radius as card handles clipping */
+    display: block;
+}
+
+.recipe p { /* Text part of the card */
+    margin: 0; /* Remove margin */
+    padding: 15px 10px; /* Padding for text */
+    font-weight: 600; /* Bolder text */
+    font-size: 1.05em; /* Slightly larger */
+}
+
+/* === About Section === */
+.about {
+    text-align: center;
+    background: #f4f4f4;
+    padding: 40px 20px; /* Increased padding */
+    margin-top: 40px; /* Increased margin */
+    font-family: 'Poppins', 'Papyrus', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #444;
+}
+.about h2 {
+    margin-bottom: 20px; /* More space */
+    color: #333;
+    font-size: 24px; /* Match recipe heading */
+}
+
+/* === Footer === */
+footer {
+    text-align: center; /* Ensure footer is centered */
+    padding: 30px 20px; /* Increased padding */
+    margin-top: 30px; /* Increased margin */
+    border-top: 1px solid #eee;
+    background-color: #fff; /* Match header background */
+}
+
+.social-icons a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    margin: 0 15px; /* Increased spacing */
+    transition: color 0.3s ease-in-out;
+    font-size: 1.1em; /* Slightly larger icons/links */
+}
+
+.social-icons a:hover {
+    color: #ff9800;
+}
+
+footer p {
+    margin-top: 20px; /* More space */
+    color: #888;
+    font-size: 14px;
+}
+
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        /* Keep flex-direction row for wider tablets */
+    }
+    header h1 {
+        font-size: 24px; /* Smaller title */
+    }
+    .header-right {
+        gap: 10px;
+    }
+    .logout-button {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+    .welcome-msg {
+        font-size: 0.9em;
+    }
+
+    nav a {
+        margin: 0 5px; /* Closer buttons */
+        padding: 8px 15px; /* Adjust padding */
+        font-size: 14px;
+    }
+    .recipe-container {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .overlay {
+        padding: 20px 25px;
+    }
+    .hero img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 520px) {
+    header {
+        flex-direction: column; /* Stack header items */
+        padding-bottom: 15px;
+        gap: 10px; /* Add gap when stacked */
+    }
+    header h1 {
+        order: -1; /* Put title first when stacked */
+    }
+    .header-right {
+        justify-content: center; /* Center items when stacked */
+        width: 100%;
+    }
+    nav {
+        padding: 10px 0;
+    }
+    nav a {
+        margin: 3px 5px; /* Allow wrapping */
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+    .recipe-container {
+        grid-template-columns: 1fr; /* Single column */
+        padding: 15px;
+        gap: 20px;
+    }
+    .overlay {
+        padding: 15px 20px;
+    }
+    .overlay h2 {
+        font-size: 1.3em;
+    }
+    .start-button {
+        padding: 10px 18px;
+        font-size: 16px;
+    }
+    .about, footer {
+        padding: 25px 15px;
+    }
+}

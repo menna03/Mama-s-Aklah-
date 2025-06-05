@@ -1,0 +1,110 @@
+/* Reset and General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: url('images/background.png') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(150px);
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Box */
+.form-box h2 {
+    margin-bottom: 10px;
+}
+
+.form-box p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+
+/* Input Fields */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.checkbox-label {
+    display: flex;
+    align-items: left;
+    gap: 0; /* Adjust space between checkbox & text */
+    font-size: 14px;
+    margin: 10px 0 15px 0; /* Adds vertical spacing */
+    justify-content: flex-start; /* Aligns text properly */
+}
+
+
+
+button {
+    width: 100%; /* Ensures all buttons are equal */
+    max-width: 320px; /* Controls button width */
+    padding: 12px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #e68900;
+}
+
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.toggle-buttons button {
+    width: 100%; /* Matches other buttons */
+    max-width: 320px;
+}
+
+/* Friendly feedback (can be shown dynamically later if desired) */
+input:invalid {
+    border-color: #ff4d4d;
+}
+
+/* Smooth transition for hover effects */
+button,
+input {
+    transition: all 0.3s ease;
+}
+
+/* Checkbox label tweak */
+.checkbox-label input {
+    margin-right: 8px;
+}
+
+/* Success message (if using later with JS) */
+.success-msg {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+

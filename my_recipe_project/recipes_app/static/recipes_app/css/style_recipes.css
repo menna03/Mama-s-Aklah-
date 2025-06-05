@@ -1,0 +1,209 @@
+/* Web _Technology_Project_Phase_2/style_recipes.css */
+
+body {
+  font-family: 'Poppins', Arial, sans-serif; /* Apply theme font */
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Consistent light background */
+  color: #333; /* Default text color */
+}
+
+/* Back Button Styling (like nav links) */
+.back-button {
+  display: inline-block;
+  margin: 20px 30px; /* Position top-left */
+  padding: 10px 22px; /* Match nav link padding */
+  background-color: #555; /* Slightly lighter grey than nav */
+  color: white;
+  text-decoration: none;
+  border-radius: 25px; /* Pill shape */
+  font-weight: 500;
+  font-size: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.back-button:hover {
+  background-color: #333; /* Darker grey on hover */
+  transform: translateY(-1px);
+}
+
+/* Main Recipe Container */
+.recipe-container {
+  max-width: 1100px; /* Consistent max width */
+  margin: 20px auto 40px auto; /* Auto horizontal margin, more bottom margin */
+  padding: 30px 40px; /* Increased padding */
+  background-color: white; /* White background */
+  border-radius: 10px; /* Consistent border radius */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Consistent shadow */
+}
+
+/* Headings */
+h1#recipe-name { /* Target specifically */
+  color: #333;
+  margin-bottom: 15px; /* Space below title */
+  font-size: 2.2em; /* Larger recipe title */
+  text-align: center; /* Center title */
+  border-bottom: 1px solid #eee; /* Separator */
+  padding-bottom: 15px;
+}
+
+h2 {
+  color: #444; /* Slightly softer color */
+  margin-top: 30px; /* More space above ingredients/instructions */
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  border-bottom: 1px solid #f0f0f0; /* Lighter separator */
+  padding-bottom: 5px;
+}
+
+/* Introduction Text */
+.intro {
+  font-size: 1.1em; /* Slightly larger intro text */
+  margin-bottom: 25px;
+  color: #555; /* Softer text color */
+  line-height: 1.6;
+  text-align: center; /* Center intro */
+}
+
+/* Content Layout */
+.recipe-content {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 40px; /* Increased gap */
+  margin-top: 20px;
+}
+
+.text {
+  flex: 3; /* Give text more space */
+  min-width: 300px;
+}
+
+.image {
+  flex: 2; /* Image takes less space */
+  min-width: 300px;
+  text-align: center; /* Center image within its container */
+}
+
+.image img {
+  max-width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #eee; /* Subtle border */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1); /* Slight shadow on image */
+}
+
+/* Lists (Ingredients/Instructions) */
+ul, ol {
+  line-height: 1.7; /* Slightly more line spacing */
+  padding-left: 25px; /* Standard indentation */
+  color: #444;
+}
+
+ul li, ol li {
+  margin-bottom: 8px; /* Space between list items */
+}
+
+/* Enjoy Text */
+.enjoy {
+  font-weight: 600; /* Bolder */
+  margin-top: 35px; /* More space above */
+  font-size: 1.2em; /* Larger text */
+  text-align: center;
+  color: #333;
+}
+
+/* Action Buttons Container */
+.actions {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  gap: 15px; /* Space between buttons */
+  margin-top: 30px; /* More space above buttons */
+  justify-content: center; /* Center buttons */
+  border-top: 1px solid #eee; /* Separator above buttons */
+  padding-top: 25px;
+}
+
+/* Individual Action Button Styling */
+.action-button {
+  /* Base style like nav links */
+  padding: 10px 22px;
+  background-color: #333; /* Dark grey background */
+  color: white;
+  text-decoration: none;
+  border-radius: 25px; /* Pill shape */
+  font-weight: 500;
+  text-align: center;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-grow: 1; /* Allow buttons to grow */
+  min-width: 150px; /* Minimum width */
+  max-width: 200px; /* Maximum width */
+}
+
+.action-button:hover {
+  background-color: #ff9800; /* Theme orange on hover (default) */
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Specific button hover states (Optional) */
+#delete-btn:hover {
+  background-color: #ff5c5c; /* Red hover for delete */
+}
+
+/* Add hover state for favorite if desired */
+/* #favorite-btn:hover {
+    background-color: #28a745; /* Example: Green for favorite */
+/* } */
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .recipe-container {
+    padding: 20px;
+    margin: 20px 15px; /* Adjust margins */
+  }
+  .recipe-content {
+    gap: 25px;
+  }
+  h1#recipe-name {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.3em;
+  }
+  .actions {
+    justify-content: space-around; /* Better spacing on wrap */
+  }
+  .action-button {
+    min-width: 130px;
+    padding: 9px 18px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1#recipe-name {
+    font-size: 1.6em;
+  }
+  .intro {
+    font-size: 1em;
+  }
+  ul, ol {
+    padding-left: 20px;
+  }
+  .action-button {
+    width: 100%; /* Make buttons full width */
+    max-width: none;
+    margin-bottom: 5px; /* Add space when stacked */
+  }
+  .actions {
+    padding-top: 20px;
+    margin-top: 25px;
+  }
+}

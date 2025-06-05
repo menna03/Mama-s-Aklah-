@@ -1,0 +1,192 @@
+{% extends 'recipes_app/base.html' %}
+{% load static %}
+
+{% block title %}{% if recipe_form.instance.pk %}Edit Recipe{% else %}Add New Recipe{% endif %} - Mama's Aklah{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'recipes_app/css/main_style.css' %}">
+<style>
+.upload-form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 35px 30px 30px 30px;
+}
+.upload-form-container h2 {
+    text-align: center;
+    color: #ff9800;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 600;
+}
+.upload-form-container label {
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 3px;
+    color: #444;
+}
+.upload-form-container input[type="text"],
+.upload-form-container input[type="file"],
+.upload-form-container select,
+.upload-form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+.upload-form-container textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+.upload-form-container .form-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.upload-form-container .action-btn {
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #ff9800;
+}
+.upload-form-container .action-btn:hover {
+    background-color: #e68900;
+    transform: translateY(-1px);
+}
+.upload-form-container .back-btn {
+    background-color: #555;
+}
+.upload-form-container .back-btn:hover {
+    background-color: #333;
+}
+.upload-form-container .form-field-errors {
+    color: #e74c3c;
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 0.9em;
+    margin-top: 3px;
+}
+.upload-form-container #form-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+}
+.upload-form-container #form-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+.upload-form-container #form-message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-form-container">
+    <a href="{% url 'home_view_name' %}" class="action-btn back-btn" style="margin-bottom: 20px; display: inline-block;">← Back to Home</a>
+    <h2>{% if recipe_form.instance.pk %}Edit Recipe{% else %}Add New Recipe{% endif %}</h2>
+    <form id="upload-form" method="POST" enctype="multipart/form-data" action="javascript:void(0);"
+          data-mode="{% if recipe_form.instance.pk %}edit{% else %}add{% endif %}"
+          data-recipe-id="{{ recipe_form.instance.pk|default:'' }}"
+          data-ajax-url="{% if recipe_form.instance.pk %}{% url 'ajax_edit_recipe_name' recipe_id=recipe_form.instance.pk %}{% else %}{% url 'ajax_add_recipe_name' %}{% endif %}">
+        {% csrf_token %}
+        {# Ensure all required IDs are present: upload-form, submit-button, imageFileInput, imagePreview, imageFileName, clear-btn, form-message #}
+        {% if recipe_form.non_field_errors %}
+            <ul class="form-field-errors">
+                {% for error in recipe_form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div>
+            <label for="{{ recipe_form.name.id_for_label }}">Recipe Name:</label>
+            {{ recipe_form.name }}
+            {% if recipe_form.name.errors %}<ul class="form-field-errors">{% for error in recipe_form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <div>
+            <label for="{{ recipe_form.course.id_for_label }}">Course:</label>
+            {{ recipe_form.course }}
+            {% if recipe_form.course.errors %}<ul class="form-field-errors">{% for error in recipe_form.course.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        {% if recipe_form.image %}
+        <div>
+            <label for="{{ recipe_form.image.id_for_label }}">Recipe Image:</label>
+            {% if recipe_form.instance.pk and recipe_form.instance.image and recipe_form.instance.image.name %}
+                <p>Current image: <a href="{{ recipe_form.instance.image.url }}" target="_blank">{{ recipe_form.instance.image.name }}</a></p>
+                <img id="currentImagePreview" src="{{ recipe_form.instance.image.url }}" alt="Current Recipe Image" style="max-width: 200px; max-height: 150px; display: block; margin-bottom: 10px;">
+                <label for="{{ recipe_form.image.id_for_label }}_clear">Clear current image: </label> {{ recipe_form.image.clear_checkbox_label }}<br>
+            {% endif %}
+            <input type="file" name="image" id="imageFileInput" accept="image/*">
+            <div id="imagePreviewContainer">
+                <img id="imagePreview" src="#" alt="New Image Preview" style="display:none; max-width:200px; max-height:150px; margin:10px auto 0 auto; border-radius:5px; border:1px solid #ddd;">
+                <span id="imageFileName"></span>
+            </div>
+        </div>
+        {% else %}
+        <!-- Fallback hidden elements so JS always finds them -->
+        <input type="file" id="imageFileInput" style="display:none;">
+        <div id="imagePreviewContainer" style="display:none;">
+            <img id="imagePreview" src="#" alt="New Image Preview">
+            <span id="imageFileName"></span>
+        </div>
+        {% endif %}
+        <div>
+            <label for="{{ recipe_form.ingredients.id_for_label }}">Ingredients (one per line):</label>
+            {{ recipe_form.ingredients }}
+            {% if recipe_form.ingredients.errors %}<ul class="form-field-errors">{% for error in recipe_form.ingredients.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <div>
+            <label for="{{ recipe_form.description.id_for_label }}">Short Introduction / Description:</label>
+            {{ recipe_form.description }}
+            {% if recipe_form.description.errors %}<ul class="form-field-errors">{% for error in recipe_form.description.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <div>
+            <label for="{{ recipe_form.instructions.id_for_label }}">Instructions (one step per line):</label>
+            {{ recipe_form.instructions }}
+            {% if recipe_form.instructions.errors %}<ul class="form-field-errors">{% for error in recipe_form.instructions.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <div style="display: flex; gap: 24px; align-items: center; margin-bottom: 18px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                {{ recipe_form.is_public }}
+                <span>Public</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                {{ recipe_form.is_featured }}
+                <span>Featured</span>
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" id="submit-button" class="action-btn upload-btn">
+                {% if recipe_form.instance.pk %}Update Recipe{% else %}Upload Recipe{% endif %}
+            </button>
+            <button type="reset" id="clear-btn" class="action-btn back-btn">Clear Form</button>
+        </div>
+    </form>
+    <div id="form-message" role="alert"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'recipes_app/js/csrf_cookie.js' %}"></script>
+<script src="{% static 'recipes_app/js/upload.js' %}"></script>
+{% endblock %}

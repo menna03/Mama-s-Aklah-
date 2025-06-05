@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {# Added viewport for responsiveness #}
+    <title>Login - Mama's Aklah</title>
+    <link rel="stylesheet" href="{% static 'recipes_app/css/Css_Styling.css' %}">
+    <style>
+        /* Basic styles for the message div, can be moved to Css_Styling.css */
+        #login-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #login-message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        #login-message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-box">
+        <h2>Welcome Back to Mama's Aklah</h2>
+        <p>Login to access your favorite recipes</p>
+
+        <form id="login-form" method="POST" data-login-url="{% url 'ajax_login_view_name' %}">
+            {% csrf_token %} {# CRITICAL for Django POST forms / AJAX POST #}
+
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" name="login-email" required autocomplete="email">
+
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="login-password" required autocomplete="current-password">
+
+            <button type="submit" id="login-submit-button">Log In</button>
+        </form>
+        <br>
+        <div id="login-message" role="alert">
+            </div>
+        <div class="toggle-buttons">
+            <a href="{% url 'signup_page_view_name' %}">Don't have an account? Sign Up</a>
+        </div>
+        <div class="toggle-buttons" style="margin-top: 10px;">
+            <a href="{% url 'home_view_name' %}">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'recipes_app/js/csrf_cookie.js' %}"></script>
+<script src="{% static 'recipes_app/js/login.js' %}"></script>
+</body>
+</html>

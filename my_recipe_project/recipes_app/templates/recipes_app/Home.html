@@ -1,0 +1,29 @@
+{% extends 'recipes_app/base.html' %}
+{% load static %}
+
+{% block title %}Home Page - Mama's Aklah{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'recipes_app/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="recipes">
+  <h2>Featured Recipes</h2>
+  <div class="recipe-container" id="recipeContainer"
+       data-featured-recipes-url="{% url 'get_featured_recipes_ajax_name' %}"
+       data-recipe-detail-url-base="{% url 'recipe_detail_view_name' recipe_id=0 %}"> <p>Loading recipes...</p>
+  </div>
+  <div id="featured-loading-error-message" style="color: red; text-align: center; margin-top: 10px;"></div>
+</section>
+
+<section class="about" id="about-section">
+  <h2>About Us</h2>
+  <p>It's a fun website with many recipes for anyone who needs guidance while cooking.</p>
+  <p>If you're struggling in cooking, we will help you. Doing it correctly is easy—all you have to do is follow the steps.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'recipes_app/js/home.js' %}"></script>
+{% endblock %}

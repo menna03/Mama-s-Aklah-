@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Details - Mama's Aklah</title>
+  <link rel="stylesheet" href="{% static 'recipes_app/css/style_recipes.css' %}">
+  <style>
+      /* Basic styles for action messages, can be moved to style_recipes.css */
+      #action-message {
+          margin-top: 15px;
+          padding: 10px;
+          border-radius: 4px;
+          font-weight: bold;
+          text-align: center;
+          display: none; /* Hidden by default */
+      }
+      #action-message.success {
+          color: #155724;
+          background-color: #d4edda;
+          border: 1px solid #c3e6cb;
+      }
+      #action-message.error {
+          color: #721c24;
+          background-color: #f8d7da;
+          border: 1px solid #f5c6cb;
+      }
+  </style>
+</head>
+<body>
+
+<a class="back-button" href="javascript:history.back()">← Back</a>
+
+<div class="recipe-container" id="recipeDataContainer"
+     data-recipe-id="{{ recipe_id }}"
+     data-recipe-detail-url="{% url 'get_recipe_detail_ajax_name' recipe_id=recipe_id %}"
+     data-edit-url-base="{% url 'edit_recipe_view_name' recipe_id=0 %}" {# Placeholder, 0 replaced by JS #}
+     data-delete-url-base="{% url 'delete_recipe_ajax_name' recipe_id=0 %}" {# Placeholder #}
+     data-favorite-url-base="{% url 'toggle_favorite_ajax_name' recipe_id=0 %}" {# Placeholder #}
+>
+  <h1 id="recipe-name">Loading recipe...</h1>
+  <p class="intro" id="recipe-intro"></p>
+  <div id="loading-error-message" style="color: red; text-align:center; margin-top: 10px;"></div>
+
+  <div class="recipe-content">
+    <div class="text">
+      <h2>Ingredients:</h2>
+      <ul id="ingredients-list">
+        <li>Loading ingredients...</li>
+      </ul>
+
+      <h2>Instructions:</h2>
+      <ol id="instructions-list">
+        <li>Loading instructions...</li>
+      </ol>
+
+      <div class="enjoy">Enjoy your meal! 😊</div>
+
+      <div class="actions">
+        {% if user.is_authenticated %}
+            {# Edit and Delete buttons are typically for the recipe owner or admin #}
+            <a id="edit-btn" class="action-button" href="#" style="display: none;">Edit Recipe</a>
+            <a id="delete-btn" class="action-button" href="#" style="display: none;">Delete Recipe</a>
+            <a id="favorite-btn" class="action-button" href="#" style="display: none;">Add to Favorites</a>
+            {% endif %}
+      </div>
+      <div id="action-message" role="alert">
+          </div>
+    </div>
+
+    <div class="image">
+      <img id="recipe-image" src="{% static 'recipes_app/css/images/placeholder_image.png' %}" alt="Recipe image loading">
+      </div>
+  </div>
+</div>
+
+<script id="page-context-data" type="application/json">
+    {
+        "isAuthenticated": {{ user.is_authenticated|yesno:"true,false" }},
+        "isStaff": {{ user.is_staff|yesno:"true,false" }},
+        "userId": "{{ user.id }}"
+        {# Add other user-specific data if needed by script_recipes.js #}
+    }
+</script>
+
+<script src="{% static 'recipes_app/js/csrf_cookie.js' %}"></script>
+<script src="{% static 'recipes_app/js/script_recipes.js' %}"></script> {# Or your renamed JS file #}
+
+</body>
+</html>

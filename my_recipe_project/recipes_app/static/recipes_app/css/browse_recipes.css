@@ -1,0 +1,278 @@
+/* Web _Technology_Project_Phase_2/browse_recipes.css */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light background */
+    color: #333;
+}
+
+/* === Header Styles (kept simple, can enhance if needed) === */
+header {
+    padding: 15px 30px;
+    background-color: #fff; /* Match home header */
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333; /* Match home */
+    flex-grow: 1; /* Allow title to take space */
+    text-align: center; /* Center title */
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 150px; /* Help balance title centering */
+    justify-content: flex-end;
+}
+#welcome-user { /* Specific ID from Browse_Recipes.html */
+    font-size: 1em;
+    color: #555;
+    white-space: nowrap;
+}
+.logout-button-browse { /* Style for logout on this page */
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+.logout-button-browse:hover { background-color: #e14e4e; }
+
+
+/* === Navigation Bar Styles (Copied from home.css) === */
+nav {
+    /* Removed background, shadow, and bottom border from nav itself */
+    padding: 15px 0; /* Padding top/bottom */
+    text-align: center;
+    background-color: #f8f8f8; /* Very light grey background for the bar area */
+    border-bottom: 1px solid #eee;
+}
+
+nav a {
+    display: inline-block; /* Treat as block for padding */
+    margin: 0 10px; /* Spacing between buttons */
+    text-decoration: none;
+    color: white; /* Text color */
+    background-color: #333; /* Dark background for button look */
+    font-weight: 500;
+    padding: 10px 22px; /* Generous padding for button feel */
+    border-radius: 25px; /* Pill shape buttons */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+    font-size: 15px; /* Slightly smaller font */
+    border: none; /* Ensure no border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+nav a:hover {
+    background-color: #ff9800; /* Theme orange background on hover */
+    color: white; /* Keep text white */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Increase shadow */
+}
+
+nav a.active { /* Style for the current page link */
+    background-color: #ff9800; /* Theme orange background */
+    color: white; /* White text */
+    font-weight: 600;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Inset shadow for active state */
+}
+/* === End Navigation Bar Styles === */
+
+
+/* === Main Content Area === */
+main.browse-container {
+    max-width: 1200px;
+    margin: 20px auto; /* Space from nav */
+    padding: 25px; /* Increased padding */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Slightly enhanced shadow */
+}
+
+/* === Search Bar === */
+.search-bar-container {
+    margin-bottom: 30px; /* More space below search */
+    text-align: center;
+}
+
+#searchInput {
+    width: 90%; /* Wider search bar */
+    max-width: 600px;
+    padding: 14px 20px; /* More padding */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 30px; /* More rounded */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #ff9800;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 5px rgba(255, 152, 0, 0.5); /* Add outer glow on focus */
+}
+
+/* === Recipe Grid === */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Increased gap */
+    max-height: 70vh; /* Limit height */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 20px; /* Padding inside the scrollable area */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fdfdfd; /* Very light background inside grid */
+}
+
+/* === Recipe Card Styling === */
+.recipe-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Consistent shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-align: center;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.recipe-card a {
+    text-decoration: none;
+    color: #333; /* Match home.css card text */
+    display: block;
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.recipe-card p {
+    padding: 15px 10px;
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1em;
+    line-height: 1.4; /* Adjust line height */
+}
+
+/* === Footer Styling === */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px; /* Increased padding */
+    color: #777;
+    font-size: 0.9em;
+    border-top: 1px solid #eee; /* Match home */
+}
+
+/* === Scrollbar Styling (Optional) === */
+.recipe-grid::-webkit-scrollbar {
+    width: 8px;
+}
+.recipe-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.recipe-grid::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+.recipe-grid::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* === No Results Message === */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px; /* More padding */
+    font-size: 1.2em; /* Larger text */
+    color: #888;
+}
+
+/* === Responsive Adjustments (Matching relevant nav/header parts from home.css) === */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+    }
+    header h1 {
+        font-size: 1.5em; /* Adjust size */
+    }
+    .user-info {
+        gap: 10px;
+    }
+    #welcome-user {
+        font-size: 0.9em;
+    }
+    .logout-button-browse {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+
+    nav a {
+        margin: 0 5px; /* Closer buttons */
+        padding: 8px 15px; /* Adjust padding */
+        font-size: 14px;
+    }
+    .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Adjust grid */
+        gap: 20px;
+    }
+    #searchInput {
+        width: 95%;
+    }
+}
+
+@media (max-width: 520px) {
+    header {
+        flex-direction: column; /* Stack header items */
+        padding-bottom: 15px;
+        gap: 10px;
+    }
+    header h1 {
+        order: -1;
+        font-size: 1.6em;
+    }
+    .user-info {
+        justify-content: center;
+        width: 100%;
+    }
+    nav {
+        padding: 10px 0;
+    }
+    nav a {
+        margin: 3px 5px; /* Allow wrapping */
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+    .recipe-grid {
+        grid-template-columns: 1fr; /* Single column */
+        padding: 15px;
+        gap: 20px;
+        max-height: 65vh; /* Adjust height for smaller screens */
+    }
+    main.browse-container {
+        margin: 15px;
+        padding: 15px;
+    }
+    #searchInput {
+        padding: 12px 18px;
+    }
+}

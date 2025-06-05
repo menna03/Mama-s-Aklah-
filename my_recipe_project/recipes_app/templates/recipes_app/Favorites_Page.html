@@ -1,0 +1,132 @@
+{% extends "recipes_app/base.html" %} {# Corrected extend path #}
+{% load static %}
+
+{% block title %}My Favorite Recipes - Mama's Aklah{% endblock %}
+
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'recipes_app/css/favorites_page.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-container favorites-page-container">
+    {# The back button in the template you provided uses 'home', let's use 'home_view_name' #}
+    <a class="back-button" href="{% url 'home_view_name' %}" style="display: inline-block; margin-bottom: 20px; color: #007bff; text-decoration: none;">← Back to Home</a>
+
+    <div class="content-wrapper">
+        <h1>Your Favorite Recipes</h1>
+        <div id="favorites-list" class="recipe-grid">
+            {# The view now passes 'favorite_recipes' as context #}
+            {% if favorite_recipes %}
+                {% for recipe in favorite_recipes %}
+                <div class="recipe-card" id="fav-recipe-card-{{ recipe.pk }}">
+                    {# Use 'recipe_detail_view_name' and pass recipe.pk #}
+                    <a href="{% url 'recipe_detail_view_name' recipe_id=recipe.pk %}" class="recipe-card-link">
+                        {# Use recipe.image.url if image is an ImageField, or recipe.image_url if it's a property/field #}
+                        <img src="{{ recipe.image.url|default:'' }}" alt="{{ recipe.name }}" class="recipe-card-image" onerror="this.onerror=null;this.src='{% static 'recipes_app/images/placeholder_image.png' %}';">
+                    </a>
+                    <div class="recipe-card-content">
+                        <h3 class="recipe-card-title"><a href="{% url 'recipe_detail_view_name' recipe_id=recipe.pk %}">{{ recipe.name }}</a></h3>
+                        {# Use recipe.description for consistency with model #}
+                        <p class="recipe-intro">{{ recipe.description|truncatewords:15 }}</p>
+                        <div class="recipe-actions">
+                            <a href="{% url 'recipe_detail_view_name' recipe_id=recipe.pk %}" class="action-button view-button">View</a>
+                            {# Use 'toggle_favorite_ajax_name' for the AJAX call #}
+                            <button class="action-button remove-favorite-btn" data-recipe-id="{{ recipe.pk }}" data-action-url="{% url 'toggle_favorite_ajax_name' recipe_id=recipe.pk %}">★ Unfavorite</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div id="empty-favorites-message" class="empty-message" {% if favorite_recipes %}style="display: none;"{% else %}style="display: block;"{% endif %}>
+            <p>You haven't added any recipes to your favorites yet.</p>
+            {# Use 'browse_recipes_view_name' #}
+            <a href="{% url 'browse_recipes_view_name' %}" class="action-button">Browse Recipes to Add Favorites</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // CSRF token is globally available via getCookie from base.html's included csrf_cookie.js
+    // const CSRF_TOKEN = getCookie('csrftoken'); // No longer need to define it here if getCookie is global
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const favoritesList = document.getElementById('favorites-list');
+
+        if (favoritesList) {
+            favoritesList.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-favorite-btn')) {
+                    const button = event.target;
+                    const recipeId = button.dataset.recipeId;
+                    const url = button.dataset.actionUrl; // Get URL from data attribute
+                    const csrfToken = getCookie('csrftoken'); // Get CSRF token
+
+                    if (!url) {
+                        console.error('Action URL not found for favorite button.');
+                        showNotification('Could not process request. URL missing.', true);
+                        return;
+                    }
+                    if (!csrfToken) {
+                        console.error('CSRF token not found.');
+                        showNotification('Security token missing. Please refresh.', true);
+                        return;
+                    }
+
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest' // Good practice for Django to identify AJAX
+                        },
+                        // body: JSON.stringify({}) // Body might not be needed if recipe_id is in URL
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            // Try to parse error if JSON, otherwise throw generic error
+                            return response.json().then(errData => {
+                                throw new Error(errData.error || `Request failed with status ${response.status}`);
+                            }).catch(() => {
+                                throw new Error(`Request failed with status ${response.status}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Expecting response like: {"success": true, "is_favorited": false, "message": "Recipe removed from favorites."}
+                        if (data.success && data.is_favorited === false) { // Check if it was successfully unfavorited
+                            const cardToRemove = document.getElementById(`fav-recipe-card-${recipeId}`);
+                            if (cardToRemove) {
+                                cardToRemove.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                                cardToRemove.style.opacity = '0';
+                                cardToRemove.style.transform = 'scale(0.9)';
+                                setTimeout(() => {
+                                    cardToRemove.remove();
+                                    // Check if the list is now empty
+                                    if (favoritesList.children.length === 0) {
+                                        const emptyMsg = document.getElementById('empty-favorites-message');
+                                        if (emptyMsg) emptyMsg.style.display = 'block';
+                                    }
+                                }, 500); // Wait for animation
+                            }
+                            showNotification(data.message || `Recipe removed from favorites.`);
+                        } else {
+                            // Handle cases where the action was 'favorited' or other errors
+                            showNotification(data.message || data.error || 'Error updating favorites.', true);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing favorite:', error);
+                        showNotification(error.message || 'An unexpected error occurred. Please try again.', true);
+                    });
+                }
+            });
+        }
+    });
+    // The global showNotification function is available from base.html
+</script>
+{% endblock %}

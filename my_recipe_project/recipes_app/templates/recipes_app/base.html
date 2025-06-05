@@ -1,0 +1,225 @@
+{% load static %}  {# Loads Django's static template tag to reference static files #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">  {# Sets the character encoding to UTF-8 #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  {# Ensures proper rendering on mobile devices #}
+    <title>{% block title %}Mama's Aklah - Delicious Recipes{% endblock %}</title>  {# Page title, overridable in child templates #}
+
+    {# Load Google Fonts #}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {# Link shared CSS file using Django static #}
+    <link rel="stylesheet" href="{% static 'recipes_app/css/shared_styles.css' %}">
+
+    {% block head_css %}{% endblock %}  {# Optional block for additional CSS in child templates #}
+
+    <style>
+        /* Layout structure for the full page */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;  /* Full height of viewport */
+        }
+
+        .site-content {
+            flex: 1;  /* Takes up remaining space between header and footer */
+        }
+
+        /* Header styles */
+        .main-header-base {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header-base .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        /* Auth links: login, signup, logout */
+        .main-header-base .auth-links a,
+        .main-header-base .auth-links button {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 0.95em;
+        }
+
+        .main-header-base .auth-links button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Navigation bar styles */
+        .main-nav-base {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .main-nav-base ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .main-nav-base ul li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .main-nav-base ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .main-nav-base ul li a:hover,
+        .main-nav-base ul li a.active {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+
+        /* Footer styles */
+        .main-footer-base {
+            background-color: #343a40;
+            color: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;  /* Push footer to bottom */
+            font-size: 0.9em;
+        }
+
+        /* Notification bar for success/error messages */
+        .notification-bar {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;  /* Green background for success */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;  /* Hidden by default */
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .notification-bar.error {
+            background-color: #dc3545;  /* Red background for errors */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with logo and auth links -->
+    <header class="main-header-base">
+        <div class="logo" style="display: flex; align-items: center; gap: 12px;">
+            <img src="{% static 'recipes_app/css/images/logo.png' %}" alt="Mama's Aklah Logo" 
+                 style="height: 38px; width: 38px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); object-fit: cover; background: #fff;">
+            <a href="{% url 'home_view_name' %}">Mama's Aklah</a>  {# Link to homepage #}
+        </div>
+
+        <div class="auth-links">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>  {# Show username if logged in #}
+                <button id="base-logout-btn" data-logout-url="{% url 'ajax_logout_view_name' %}">Log Out</button>
+            {% else %}
+                <a href="{% url 'login_page_view_name' %}">Log In</a>  {# Link to login page #}
+                <a href="{% url 'signup_page_view_name' %}">Sign Up</a>  {# Link to signup page #}
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Navigation bar -->
+    <nav class="main-nav-base">
+        <ul>
+            <li><a href="{% url 'home_view_name' %}" {% if request.resolver_match.url_name == 'home_view_name' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="{% url 'browse_recipes_view_name' %}" {% if request.resolver_match.url_name == 'browse_recipes_view_name' %}class="active"{% endif %}>Browse Recipes</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'favorites_page_view_name' %}" {% if request.resolver_match.url_name == 'favorites_page_view_name' %}class="active"{% endif %}>My Favorites</a></li>
+                {% if user.is_staff %}
+                    <li><a href="{% url 'upload_recipe_view_name' %}" {% if request.resolver_match.url_name == 'upload_recipe_view_name' %}class="active"{% endif %}>Add New Recipe</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Dynamic content block for child templates -->
+    <div class="site-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer-base">
+        <p>&copy; {% now "Y" %} Mama's Aklah. All rights reserved.</p>
+    </footer>
+
+    <!-- Notification bar (hidden by default) -->
+    <div id="notification-bar" class="notification-bar"></div>
+
+    <!-- JavaScript for CSRF cookie handling -->
+    <script src="{% static 'recipes_app/js/csrf_cookie.js' %}"></script>
+
+    <script>
+        // Handles logout click event via AJAX
+        const baseLogoutBtn = document.getElementById('base-logout-btn');
+        if (baseLogoutBtn) {
+            const logoutUrl = baseLogoutBtn.dataset.logoutUrl;
+            baseLogoutBtn.addEventListener('click', function() {
+                const csrfToken = getCookie('csrftoken'); // CSRF token from helper script
+                fetch(logoutUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.redirect_url) {
+                        window.location.href = data.redirect_url;  // Redirect on success
+                    } else {
+                        alert(data.error || 'Logout failed.');  // Show error
+                    }
+                })
+                .catch(error => {
+                    console.error('Base logout error:', error);
+                    alert('An error occurred during logout.');
+                });
+            });
+        }
+
+        // Global function to show notifications
+        function showNotification(message, isError = false) {
+            const notificationBar = document.getElementById('notification-bar');
+            if (notificationBar) {
+                notificationBar.textContent = message;
+                notificationBar.className = 'notification-bar'; // Reset classes
+                if (isError) {
+                    notificationBar.classList.add('error');
+                }
+                notificationBar.style.display = 'block';
+                setTimeout(() => {
+                    notificationBar.style.display = 'none';  // Auto-hide after 4 seconds
+                }, 4000);
+            }
+        }
+    </script>
+
+    {% block scripts %}{% endblock %}  {# Optional block for child template JS #}
+</body>
+</html>

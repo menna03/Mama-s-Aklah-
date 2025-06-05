@@ -1,0 +1,191 @@
+/* Web _Technology_Project_Phase_2/main_style.css */
+
+body {
+    font-family: 'Poppins', sans-serif; /* Apply theme font */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light background consistent with browse page */
+    color: #333; /* Default text color */
+}
+
+/* Profile Section (Styled similar to header in home.css) */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between elements */
+    padding: 15px 30px; /* Consistent padding */
+    background-color: #fff; /* White background */
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #eee; /* Lighter border */
+    object-fit: cover;
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.profile h3 { /* Style for the dynamically added welcome message */
+    margin: 0;
+    font-size: 1.4em;
+    color: #333;
+    font-weight: 600;
+    flex-grow: 1; /* Allow the h3 to take available space */
+    text-align: center; /* Center the text within the h3 */
+    /* Add some padding if needed to prevent text touching edges */
+    padding: 0 15px;
+}
+
+/* Logout Button Styling (using class added in main.html script) */
+.logout-button { /* General style for logout buttons */
+    background-color: #ff5c5c; /* Red logout */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+    /* Absolute positioning is handled inline in main.html script */
+    /* Add a higher z-index if it ever gets overlapped */
+    /* z-index: 10; */
+    flex-shrink: 0; /* Prevent button from shrinking (though absolute position dominates) */
+}
+.logout-button:hover {
+    background-color: #e14e4e;
+}
+
+
+/* Chef Actions Button */
+.chef-actions { /* Container for the button */
+    text-align: center;
+    margin: 30px 20px; /* Increased margin */
+}
+
+.chef-actions button {
+    background: #ff9800; /* Theme orange */
+    color: white;
+    padding: 12px 25px; /* More padding */
+    border: none;
+    border-radius: 25px; /* Pill shape */
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chef-actions button:hover {
+    background: #e68900; /* Darker orange */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Main Content Container for Recipes */
+.menu-list {
+    max-width: 1100px; /* Consistent max width */
+    margin: 20px auto;
+    padding: 25px; /* Increased padding */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+.menu-list h2 {
+    text-align: center;
+    font-size: 26px; /* Match other section titles */
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Grid layout for recipes */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px; /* Consistent gap */
+}
+
+/* Individual Recipe Card Styling */
+.menu-item {
+    text-align: center;
+    background: #fff; /* Match recipe card background */
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08); /* Match recipe card shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden; /* Clip image corners */
+}
+
+.menu-item:hover {
+    transform: translateY(-4px); /* Match recipe card hover */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12); /* Match recipe card hover shadow */
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: #333; /* Match recipe card text color */
+    font-weight: 600; /* Match recipe card font weight */
+    font-size: 1.05em; /* Match recipe card font size */
+    display: block; /* Link takes up card */
+}
+
+.menu-item img {
+    width: 100%;
+    height: 160px; /* Consistent image height */
+    border-radius: 0; /* Remove radius as card clips */
+    object-fit: cover;
+    display: block; /* Remove extra space */
+}
+
+.menu-item p {
+    margin: 0; /* Remove default margin */
+    padding: 15px 10px; /* Consistent padding */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile {
+        padding: 15px 20px;
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: center; /* Center items when wrapped */
+        gap: 10px;
+    }
+    .profile h3 {
+        width: 100%; /* Full width when wrapped */
+        text-align: center; /* Ensure centering when wrapped */
+        order: -1; /* Put title first */
+        padding: 0 5px; /* Adjust padding */
+        font-size: 1.3em; /* Adjust size */
+    }
+    /* Logout button position might need adjusting if it interferes */
+
+    .menu-container {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    }
+    .menu-list {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-container {
+        grid-template-columns: 1fr; /* Single column */
+    }
+    .menu-list {
+        padding: 15px;
+    }
+    .profile img {
+        width: 40px;
+        height: 40px;
+    }
+    .profile h3 {
+        font-size: 1.2em;
+    }
+    .chef-actions button {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+}
